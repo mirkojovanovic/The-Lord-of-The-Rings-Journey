@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/getNameFragment">
+
+    <fragment
+        android:id="@+id/getNameFragment"
+        android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.get_name.GetNameFragment"
+        android:label="fragment_get_name"
+        tools:layout="@layout/fragment_get_name" />
+</navigation>

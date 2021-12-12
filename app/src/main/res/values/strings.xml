@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">The Lord of the Rings Journey</string>
+    <string name="home_title">Home</string>
+    <string name="header_title">LOTR Journey</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movies_title">Movies</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.mirkojovanovic.thelordoftheringsjourney.core.kotlin
+package com.mirkojovanovic.thelordoftheringsjourney.common
 
 import android.app.Activity
 import android.os.Build
@@ -54,5 +54,28 @@ fun Activity.hideSystemUI() {
         // is translucent if user swipes it up
         @Suppress("DEPRECATION")
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    }
+}
+
+
+/**
+ * Shows the system bars and returns back from fullscreen.
+ * @see hideSystemUI
+ * @see addSystemUIVisibilityListener
+ */
+fun Activity.showSystemUI() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        // show app content in fullscreen, i. e. behind the bars when they are shown (alternative to
+        // deprecated View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION and View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        window.setDecorFitsSystemWindows(false)
+        // finally, show the system bars
+        window.insetsController?.show(WindowInsets.Type.systemBars())
+    } else {
+        // Shows the system bars by removing all the flags
+        // except for the ones that make the content appear under the system bars.
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 }
