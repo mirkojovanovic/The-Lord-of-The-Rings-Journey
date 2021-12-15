@@ -29,7 +29,7 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        args.movieDoc.run {
+        args.movieDoc?.run {
             binding.nameValue.text = name
             binding.runtimeValue.text =
                 getString(R.string.runtime_in_min, runtimeInMinutes)
