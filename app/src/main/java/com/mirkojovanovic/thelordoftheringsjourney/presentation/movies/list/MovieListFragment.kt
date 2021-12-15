@@ -1,17 +1,17 @@
 package com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.map
+import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.dp
 import com.mirkojovanovic.thelordoftheringsjourney.data.dto.toMovieDoc
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.FragmentMovieListBinding
+import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.movies.GetMoviesPageUseCase
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.util.VerticalSpaceItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -24,9 +24,9 @@ class MovieListFragment : Fragment() {
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var serviceAdapter: MoviesAdapter
+    private lateinit var moviesAdapter: MoviesAdapter
 
-    private val viewModel by viewModels<MoviesViewModel>()
+    private val viewModel by viewModels<MovieListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +39,46 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpMovieList()
+        setHasOptionsMenu(true)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.sortType.collectLatest {
+                viewModel.loadMovies()
+                binding.movies.scrollToPosition(0)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.movies_sort_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        item.isChecked = true
+        when (item.itemId) {
+            R.id.unsorted -> {
+                viewModel.setSortType(GetMoviesPageUseCase.SortType.Unsorted)
+                viewModel.setSortBy(null)
+                return true
+            }
+            R.id.ascending -> {
+                viewModel.setSortType(GetMoviesPageUseCase.SortType.Ascending)
+                return true
+            }
+            R.id.descending -> {
+                viewModel.setSortType(GetMoviesPageUseCase.SortType.Descending)
+                return true
+            }
+            R.id.runtime -> {
+                viewModel.setSortBy(GetMoviesPageUseCase.SortBy.Runtime)
+                return true
+            }
+            R.id.score -> {
+                viewModel.setSortBy(GetMoviesPageUseCase.SortBy.Score)
+                return true
+            }
+        }
+        return false
     }
 
     private fun setUpMovieList() {
@@ -51,7 +91,7 @@ class MovieListFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.movies.collectLatest { data ->
                 data?.let {
-                    serviceAdapter.submitData(data.map { it.toMovieDoc() })
+                    moviesAdapter.submitData(data.map { it.toMovieDoc() })
                 }
             }
         }
@@ -64,7 +104,7 @@ class MovieListFragment : Fragment() {
     }
 
     private fun setUpMovieListAdapter() {
-        serviceAdapter = MoviesAdapter {
+        moviesAdapter = MoviesAdapter {
             findNavController()
                 .navigate(MovieListFragmentDirections.actionMoviesFragmentToMovieQuotesFragment(it))
         }
@@ -72,7 +112,7 @@ class MovieListFragment : Fragment() {
 //                findNavController()
 //                    .navigate(MovieListFragmentDirections.actionMoviesFragmentToMovieQuotesFragment(it))
 //            })
-        binding.movies.adapter = serviceAdapter
+        binding.movies.adapter = moviesAdapter
 
     }
 

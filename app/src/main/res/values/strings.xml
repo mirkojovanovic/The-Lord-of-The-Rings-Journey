@@ -22,4 +22,12 @@
     <string name="nominations">Nominations</string>
     <string name="movie_nominations">%d nominations</string>
     <string name="name">Name</string>
+    <string name="search_title">Search…</string>
+    <string name="search_hint">Search…</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="unsorted">Unsorted</string>
+    <string name="score">Score</string>
+    <string name="sort_type">Sort type</string>
+    <string name="sort_by">Sort by</string>
 </resources>

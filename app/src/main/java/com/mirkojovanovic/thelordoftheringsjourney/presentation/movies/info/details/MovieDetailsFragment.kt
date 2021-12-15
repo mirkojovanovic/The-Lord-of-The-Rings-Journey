@@ -1,9 +1,7 @@
-package com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.detail.details
+package com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.mirkojovanovic.thelordoftheringsjourney.R
@@ -29,6 +27,10 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTextData()
+    }
+
+    private fun setTextData() {
         args.movieDoc?.run {
             binding.nameValue.text = name
             binding.runtimeValue.text =

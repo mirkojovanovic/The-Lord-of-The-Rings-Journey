@@ -1,4 +1,4 @@
-package com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.get_books
+package com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.books
 
 import com.mirkojovanovic.thelordoftheringsjourney.common.Resource
 import com.mirkojovanovic.thelordoftheringsjourney.data.dto.BooksPageDto

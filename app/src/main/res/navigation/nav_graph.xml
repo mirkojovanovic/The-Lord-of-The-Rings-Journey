@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.detail.details.MovieDetailsFragment"
+        android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.details.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
         tools:layout="@layout/fragment_movie_details">
         <argument
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/movieQuotesFragment"
-        android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.detail.quotes.MovieQuotesFragment"
+        android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.quotes.MovieQuotesFragment"
         tools:layout="@layout/fragment_movie_quotes"
         android:label="MovieQuotesFragment">
         <argument
