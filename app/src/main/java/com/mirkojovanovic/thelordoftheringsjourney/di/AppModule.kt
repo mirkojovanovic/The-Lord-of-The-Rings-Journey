@@ -1,8 +1,8 @@
 package com.mirkojovanovic.thelordoftheringsjourney.di
 
-import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mirkojovanovic.thelordoftheringsjourney.BuildConfig
 import com.mirkojovanovic.thelordoftheringsjourney.common.Constants.BASE_URL
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.AuthorizationInterceptor
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.TheOneApi
