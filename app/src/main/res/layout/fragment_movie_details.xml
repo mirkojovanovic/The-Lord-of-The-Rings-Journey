@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@color/secondaryColor">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/name_value"
+            android:fontFamily="@font/roboto_bold"
+            android:padding="8dp"
+            android:textSize="18sp"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="Movie name" />
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/runtime"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:text="@string/runtime"
+            android:textColor="@color/secondaryTextColor" />
+
+        <TextView
+            android:id="@+id/runtime_value"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="431 min" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/budget"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:text="@string/budget"
+            android:textColor="@color/secondaryTextColor" />
+
+        <TextView
+            android:id="@+id/budget_value"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="5 mil" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/revenue"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:text="@string/revenue"
+            android:textColor="@color/secondaryTextColor" />
+
+        <TextView
+            android:id="@+id/revenue_value"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="revenue" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/score"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:text="@string/rotten_tomattoes_score"
+            android:textColor="@color/secondaryTextColor" />
+
+        <TextView
+            android:id="@+id/score_value"
+            android:padding="8dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="7.4" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/nominations"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
+            android:text="@string/nominations"
+            android:textColor="@color/secondaryTextColor" />
+
+        <TextView
+            android:id="@+id/nominations_value"
+            android:padding="8dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="40" />
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/awards"
+            android:padding="8dp"
+            android:text="@string/awards"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/secondaryTextColor" />
+
+        <TextView
+            android:id="@+id/awards_value"
+            android:padding="8dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="15" />
+    </TableRow>
+
+</TableLayout>
+

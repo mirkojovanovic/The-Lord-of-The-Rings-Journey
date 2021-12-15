@@ -1,12 +1,26 @@
 package com.mirkojovanovic.thelordoftheringsjourney.common
 
 import android.app.Activity
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
-import android.view.WindowManager
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
+import com.google.android.material.snackbar.Snackbar
 import com.mirkojovanovic.thelordoftheringsjourney.R
+import com.mirkojovanovic.thelordoftheringsjourney.common.Constants.BASE_URL
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import okhttp3.Request
+import java.io.IOException
+import kotlin.math.roundToInt
 
 /**
  * Hides the system bars and makes the Activity "fullscreen". If this should be the default
@@ -78,4 +92,123 @@ fun Activity.showSystemUI() {
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
+}
+
+fun Request.signWithToken(accessToken: String?) =
+    if (this.url.toString().contains(BASE_URL) && !accessToken.isNullOrEmpty()) {
+        newBuilder()
+            .header("Authorization", "Bearer $accessToken")
+            .build()
+    } else this
+
+fun View.showError(message: String?) {
+    val defaultError = context?.getString(R.string.default_error)
+    Snackbar.make(
+        this,
+        if (message.isNullOrEmpty() && !defaultError.isNullOrEmpty())
+            defaultError
+        else "",
+        Snackbar.LENGTH_SHORT
+    ).show()
+}
+
+suspend fun <T> Flow<Resource<T>>.collectLatestWithLoading(
+    context: Context,
+    action: suspend (value: Resource<T>) -> Unit,
+) {
+    val loading = AlertDialog.Builder(context)
+        .setView(R.layout.popup_loading)
+        .setCancelable(false)
+        .create()
+    loading.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    collectLatest {
+        if (it is Resource.Loading) loading.show()
+        else loading.cancel()
+        action(it)
+    }
+}
+
+fun View.hideKeyboard() {
+    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)?.apply {
+        hideSoftInputFromWindow(windowToken, 0)
+    }
+}
+
+fun View.setAsRootView() {
+    isFocusable = true
+    isFocusableInTouchMode = true
+    isClickable = true
+
+    onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+        if (hasFocus) v.hideKeyboard()
+    }
+}
+
+fun View.focusAndShowKeyboard() {
+    fun View.showTheKeyboardNow() {
+        if (isFocused) {
+            post {
+                val imm =
+                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }
+    }
+
+    requestFocus()
+    if (hasWindowFocus()) {
+        showTheKeyboardNow()
+    } else {
+        viewTreeObserver.addOnWindowFocusChangeListener(
+            object : ViewTreeObserver.OnWindowFocusChangeListener {
+                override fun onWindowFocusChanged(hasFocus: Boolean) {
+                    if (hasFocus) {
+                        this@focusAndShowKeyboard.showTheKeyboardNow()
+                        viewTreeObserver.removeOnWindowFocusChangeListener(this)
+                    }
+                }
+            })
+    }
+}
+
+fun EditText.onDone(callback: (EditText) -> Unit) {
+    imeOptions = EditorInfo.IME_ACTION_DONE
+    maxLines = 1
+    setOnEditorActionListener { _, actionId, _ ->
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            hideKeyboard()
+            callback.invoke(this)
+            true
+        } else false
+    }
+}
+
+/*
+fun <T> Context.getDataStoreFlow(key: Preferences.Key<T>, defaultValue: T?) =
+    dataStore.data.catch { exception ->
+        if (exception is IOException)
+            emit(emptyPreferences())
+        else throw exception
+    }.map {
+        it[key] ?: defaultValue
+    }
+*/
+
+
+/*
+fun <T> Context.getDataStoreLiveData(key: Preferences.Key<T>, defaultValue: T?) =
+    getDataStoreFlow(key, defaultValue).asLiveData()
+*/
+
+/*
+suspend fun <T> Context.setDataStoreValue(key: Preferences.Key<T>, value: T) = dataStore.edit {
+    it[key] = value
+}
+*/
+
+fun Int.dp(): Int {
+    val metrics = Resources.getSystem().displayMetrics
+    val px = this * (metrics.densityDpi / 160f)
+    return px.roundToInt()
 }
