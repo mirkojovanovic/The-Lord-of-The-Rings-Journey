@@ -7,8 +7,10 @@ import com.mirkojovanovic.thelordoftheringsjourney.common.Constants.BASE_URL
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.AuthorizationInterceptor
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.TheOneApi
 import com.mirkojovanovic.thelordoftheringsjourney.data.repository.BookRepositoryImpl
+import com.mirkojovanovic.thelordoftheringsjourney.data.repository.CharacterRepositoryImpl
 import com.mirkojovanovic.thelordoftheringsjourney.data.repository.MovieRepositoryImpl
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.BookRepository
+import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.CharacterRepository
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
@@ -80,6 +82,12 @@ object AppModule {
     @Singleton
     fun provideMovieRepository(api: TheOneApi): MovieRepository {
         return MovieRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterRepository(api: TheOneApi): CharacterRepository {
+        return CharacterRepositoryImpl(api)
     }
 
 }

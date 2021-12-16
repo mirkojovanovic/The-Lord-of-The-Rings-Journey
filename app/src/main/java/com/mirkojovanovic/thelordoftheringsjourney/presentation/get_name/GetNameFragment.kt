@@ -9,15 +9,19 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mirkojovanovic.thelordoftheringsjourney.R
+import com.mirkojovanovic.thelordoftheringsjourney.common.PreferenceCache
 import com.mirkojovanovic.thelordoftheringsjourney.common.focusAndShowKeyboard
 import com.mirkojovanovic.thelordoftheringsjourney.common.onDone
 import com.mirkojovanovic.thelordoftheringsjourney.common.setAsRootView
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.FragmentGetNameBinding
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.home.NameListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -29,6 +33,9 @@ class GetNameFragment : Fragment() {
     private lateinit var nameListener: NameListener
 
     private val viewModel by viewModels<GetNameViewModel>()
+
+    @Inject
+    lateinit var prefs: PreferenceCache
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,11 +88,13 @@ class GetNameFragment : Fragment() {
         findNavController().navigate(R.id.homeFragment)
     }
 
-
     private fun saveUserName() {
-        val name = binding.nameInput.text.toString()
-        nameListener.setUserNameInTheDrawer(name)
-        viewModel.setUserName(name)
+        viewLifecycleOwner.lifecycleScope.launch {
+            prefs.userName = binding.nameInput.text.toString()
+            prefs.userName?.let {
+                nameListener.setUserNameInTheDrawer(it)
+            }
+        }
     }
 
     override fun onDestroyView() {

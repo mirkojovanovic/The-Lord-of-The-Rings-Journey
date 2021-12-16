@@ -16,9 +16,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.mirkojovanovic.thelordoftheringsjourney.R
+import com.mirkojovanovic.thelordoftheringsjourney.common.PreferenceCache
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.ActivityMainBinding
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.home.NameListener
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -32,27 +34,18 @@ class MainActivity : AppCompatActivity(), NameListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
+    @Inject
+    lateinit var prefs: PreferenceCache
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setOnSplashExitAnimation()
         setUpNavigation()
-        setStartDestination()
         setUpNavigationDrawer()
-    }
-
-    private fun setStartDestination() {
-        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-        viewModel.getUserName().let { name ->
-            navGraph.startDestination = when {
-                name.isNullOrBlank() -> R.id.getNameFragment
-                else -> R.id.homeFragment
-            }
-        }
-        navController.graph = navGraph
+        setOnSplashExitAnimation()
     }
 
     private fun setUpNavigationDrawer() {
@@ -82,12 +75,19 @@ class MainActivity : AppCompatActivity(), NameListener {
     }
 
     private fun setUpNavigation() {
-        setSupportActionBar(binding.topAppBar)
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+
+        navGraph.startDestination =
+            if (prefs.userName.isNullOrBlank()) R.id.getNameFragment
+            else R.id.homeFragment
+        navController.graph = navGraph
+        prefs.userName?.let { setUserNameInTheDrawer(it) }
         appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         binding.navView.setupWithNavController(navController)
+        setSupportActionBar(binding.topAppBar)
     }
 
     private fun setOnSplashExitAnimation() {
