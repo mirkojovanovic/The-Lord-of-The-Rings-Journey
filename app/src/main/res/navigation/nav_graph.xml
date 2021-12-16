@@ -46,7 +46,7 @@
         <argument
             android:name="movieDoc"
             app:nullable="true"
-            app:argType="com.mirkojovanovic.thelordoftheringsjourney.domain.model.MovieDoc" />
+            app:argType="com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc" />
     </fragment>
 
     <fragment
