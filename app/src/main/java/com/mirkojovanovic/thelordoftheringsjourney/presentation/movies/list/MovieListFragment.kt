@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.map
 import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.dp
-import com.mirkojovanovic.thelordoftheringsjourney.data.dto.toMovieDoc
+import com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie.toMovieDoc
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.FragmentMovieListBinding
 import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.movies.GetMoviesPageUseCase
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.util.VerticalSpaceItemDecoration

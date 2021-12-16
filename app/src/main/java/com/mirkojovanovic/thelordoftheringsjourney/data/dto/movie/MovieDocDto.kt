@@ -1,6 +1,6 @@
-package com.mirkojovanovic.thelordoftheringsjourney.data.dto
+package com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie
 
-import com.mirkojovanovic.thelordoftheringsjourney.domain.model.MovieDoc
+import com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc
 
 data class MovieDocDto(
     val _id: String,

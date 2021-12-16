@@ -1,7 +1,9 @@
 package com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.details
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.mirkojovanovic.thelordoftheringsjourney.R

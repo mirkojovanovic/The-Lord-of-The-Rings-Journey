@@ -1,4 +1,4 @@
-package com.mirkojovanovic.thelordoftheringsjourney.domain.model
+package com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -13,5 +13,5 @@ data class MovieDoc(
     val academyAwardNominations: Int,
     val academyAwardWins: Int,
     val boxOfficeRevenueInMillions: Float,
-    val budgetInMillions: Int
+    val budgetInMillions: Int,
 ) : Parcelable

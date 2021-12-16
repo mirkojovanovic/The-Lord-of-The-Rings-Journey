@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mirkojovanovic.thelordoftheringsjourney.data.dto.MovieDocDto
+import com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie.MovieDocDto
 import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.movies.GetMoviesPageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
