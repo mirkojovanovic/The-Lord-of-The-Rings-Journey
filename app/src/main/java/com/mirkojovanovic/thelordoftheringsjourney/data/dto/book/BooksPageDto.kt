@@ -1,6 +1,6 @@
-package com.mirkojovanovic.thelordoftheringsjourney.data.dto
+package com.mirkojovanovic.thelordoftheringsjourney.data.dto.book
 
-import com.mirkojovanovic.thelordoftheringsjourney.domain.model.BooksPage
+import com.mirkojovanovic.thelordoftheringsjourney.domain.model.book.BooksPage
 
 data class BooksPageDto(
     val docs: List<BookDocDto>,

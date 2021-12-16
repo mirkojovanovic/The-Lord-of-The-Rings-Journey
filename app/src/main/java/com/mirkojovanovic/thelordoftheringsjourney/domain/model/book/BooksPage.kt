@@ -1,4 +1,4 @@
-package com.mirkojovanovic.thelordoftheringsjourney.domain.model
+package com.mirkojovanovic.thelordoftheringsjourney.domain.model.book
 
 data class BooksPage(
     val docs: List<BookDoc>,
