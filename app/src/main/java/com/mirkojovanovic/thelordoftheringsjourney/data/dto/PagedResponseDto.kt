@@ -7,5 +7,5 @@ data class PagedResponseDto<T>(
     val offset: Int,
     val page: Int,
     val pages: Int,
-    val total: Int
+    val total: Int,
 )

@@ -1,7 +1,7 @@
 package com.mirkojovanovic.thelordoftheringsjourney.data.repository
 
 import com.mirkojovanovic.thelordoftheringsjourney.common.Resource
-import com.mirkojovanovic.thelordoftheringsjourney.data.dto.BooksPageDto
+import com.mirkojovanovic.thelordoftheringsjourney.data.dto.book.BooksPageDto
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.TheOneApi
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 
 class BookRepositoryImpl @Inject constructor(
-    private val theOneApi: TheOneApi
+    private val theOneApi: TheOneApi,
 ) : BookRepository {
 
     override suspend fun getBooks(): Flow<Resource<BooksPageDto>> = flow {
@@ -21,9 +21,9 @@ class BookRepositoryImpl @Inject constructor(
             val books = theOneApi.getBooks()
             emit(Resource.Success(books))
         } catch (e: HttpException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error("(${e.code()}) " + e.message()))
         } catch (e: IOException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error("(${e.cause}) " + e.message))
         }
     }
 }

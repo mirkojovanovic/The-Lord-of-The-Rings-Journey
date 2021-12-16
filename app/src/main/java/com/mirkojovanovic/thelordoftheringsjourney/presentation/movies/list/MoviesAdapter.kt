@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.MovieItemBinding
-import com.mirkojovanovic.thelordoftheringsjourney.domain.model.MovieDoc
+import com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc
 
 class MoviesAdapter(
 //    private val showDetails: (MovieDoc) -> Unit,

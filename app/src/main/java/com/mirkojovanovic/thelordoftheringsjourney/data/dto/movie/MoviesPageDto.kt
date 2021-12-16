@@ -1,6 +1,6 @@
-package com.mirkojovanovic.thelordoftheringsjourney.data.dto
+package com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie
 
-import com.mirkojovanovic.thelordoftheringsjourney.domain.model.MoviesPage
+import com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MoviesPage
 
 data class MoviesPageDto(
     val docs: List<MovieDocDto>,
@@ -10,6 +10,10 @@ data class MoviesPageDto(
     val pages: Int,
     val total: Int,
 )
+
+fun MoviesPageDto.toMovie() =
+    docs[0].toMovieDoc()
+
 
 fun MoviesPageDto.toMoviesPage() =
     MoviesPage(

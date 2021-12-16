@@ -9,14 +9,14 @@ class VerticalSpaceItemDecoration(
     private val start: Int = 0,
     private val top: Int = 0,
     private val end: Int = start,
-    private val bottom: Int = top
+    private val bottom: Int = top,
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         fun getItemPosition(view: View): Int = parent.getChildAdapterPosition(view)
         fun getItemCount(): Int = parent.adapter!!.itemCount

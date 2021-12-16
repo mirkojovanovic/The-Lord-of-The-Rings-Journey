@@ -16,7 +16,7 @@
         android:padding="75dp"
         android:textSize="32sp"
         android:visibility="gone"
-        app:drawableTint="@color/secondaryDarkColor"
+        app:drawableTint="@color/secondaryLightColor"
         app:drawableTopCompat="@drawable/ic_bookshelf"
         tools:text="3 books" />
 
@@ -29,7 +29,7 @@
         android:padding="75dp"
         android:textSize="32sp"
         android:visibility="gone"
-        app:drawableTint="@color/secondaryDarkColor"
+        app:drawableTint="@color/secondaryLightColor"
         app:drawableTopCompat="@drawable/ic_filmstrip"
         tools:text="8 movies" />
 

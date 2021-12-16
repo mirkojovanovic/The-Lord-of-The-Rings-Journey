@@ -1,7 +1,7 @@
 package com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.movies
 
 import androidx.paging.PagingData
-import com.mirkojovanovic.thelordoftheringsjourney.data.dto.MovieDocDto
+import com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie.MovieDocDto
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -17,7 +17,10 @@ private const val SORT_MOVIES_UNSORTED = ""
 class GetMoviesPageUseCase @Inject constructor(
     private val repository: MovieRepository,
 ) {
-    suspend operator fun invoke(sortType: SortType, sortBy: SortBy?): Flow<PagingData<MovieDocDto>> =
+    suspend operator fun invoke(
+        sortType: SortType,
+        sortBy: SortBy?,
+    ): Flow<PagingData<MovieDocDto>> =
         flow {
             val sortTypeString = when (sortBy) {
                 is SortBy.Score -> {

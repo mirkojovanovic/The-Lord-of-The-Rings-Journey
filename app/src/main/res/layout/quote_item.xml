@@ -31,6 +31,19 @@
         android:layout_height="wrap_content"
         android:textColor="@color/secondaryTextColor"
         android:fontFamily="@font/roboto_italic"
-        tools:text="- Smeagol" />
+        tools:text="- Smeagol"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingStart="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="@color/secondaryTextColor"
+        android:fontFamily="@font/roboto_thin_italic"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
