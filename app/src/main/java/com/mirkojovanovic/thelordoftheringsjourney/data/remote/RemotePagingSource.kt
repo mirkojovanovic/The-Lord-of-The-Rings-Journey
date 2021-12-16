@@ -8,7 +8,7 @@ import retrofit2.Response
 import java.io.IOException
 
 class RemotePagingSource<T : Any>(
-    private val apiCall: suspend (page: Int) -> Response<PagedResponseDto<T>>
+    private val apiCall: suspend (page: Int) -> Response<PagedResponseDto<T>>,
 ) : PagingSource<Int, T>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
