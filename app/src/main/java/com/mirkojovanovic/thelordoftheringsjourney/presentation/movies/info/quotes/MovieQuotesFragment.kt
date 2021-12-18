@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.repeatOnLifecycle
 import com.mirkojovanovic.thelordoftheringsjourney.common.dp
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.FragmentMovieQuotesBinding
+import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.MovieInfoViewModel
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.util.VerticalSpaceItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MovieQuotesFragment : Fragment() {
 
@@ -24,8 +28,7 @@ class MovieQuotesFragment : Fragment() {
 
     private lateinit var movieQuotesAdapter: MovieQuotesAdapter
 
-    private val viewModel by viewModels<MovieQuotesViewModel>()
-    private val args by navArgs<MovieQuotesFragmentArgs>()
+    private val viewModel by activityViewModels<MovieInfoViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +40,26 @@ class MovieQuotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpMovieQuotesList()
-        viewModel.loadMovieQuotes(args.movieId)
+        viewModel.getCharacters()
+        activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
+        setUpMovieCharacterQuoteList()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    with(state) {
+                        movie?.let { movieQuotesAdapter.movie = movie }
+                        characters?.let { movieQuotesAdapter.characters = it.toMutableList() }
+                        quotes?.let { movieQuotesAdapter.quotes = it.toMutableList() }
+                        movieQuotesAdapter.filter.filter(query)
+                    }
+                }
+            }
+        }
     }
 
-    private fun setUpMovieQuotesList() {
+    private fun setUpMovieCharacterQuoteList() {
         setUpMovieQuotesAdapter()
         setMovieQuotesSpacingValues()
-        submitListData()
     }
 
     private fun setMovieQuotesSpacingValues() {
@@ -56,16 +71,6 @@ class MovieQuotesFragment : Fragment() {
     private fun setUpMovieQuotesAdapter() {
         movieQuotesAdapter = MovieQuotesAdapter()
         binding.quotes.adapter = movieQuotesAdapter
-    }
-
-    private fun submitListData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.movieQuotes.collectLatest { data ->
-                data?.let {
-                    movieQuotesAdapter.submitData(data)
-                }
-            }
-        }
     }
 
     override fun onDestroy() {

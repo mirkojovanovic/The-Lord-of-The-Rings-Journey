@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetMovieQuotesUseCase @Inject constructor(
+class GetMovieQuotesPageUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val getCharacterUseCase: GetCharacterUseCase,
     private val getMovieUseCase: GetMovieUseCase,

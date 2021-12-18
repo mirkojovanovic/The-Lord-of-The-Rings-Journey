@@ -1,6 +1,8 @@
 package com.mirkojovanovic.thelordoftheringsjourney.data.repository
 
+import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.Resource
+import com.mirkojovanovic.thelordoftheringsjourney.common.util.UiText
 import com.mirkojovanovic.thelordoftheringsjourney.data.dto.book.BooksPageDto
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.TheOneApi
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.BookRepository
@@ -21,9 +23,9 @@ class BookRepositoryImpl @Inject constructor(
             val books = theOneApi.getBooks()
             emit(Resource.Success(books))
         } catch (e: HttpException) {
-            emit(Resource.Error("(${e.code()}) " + e.message()))
+            emit(Resource.Error(UiText.StringResource(R.string.error_couldnt_load_all_books)))
         } catch (e: IOException) {
-            emit(Resource.Error("(${e.cause}) " + e.message))
+            emit(Resource.Error(UiText.unknownError()))
         }
     }
 }

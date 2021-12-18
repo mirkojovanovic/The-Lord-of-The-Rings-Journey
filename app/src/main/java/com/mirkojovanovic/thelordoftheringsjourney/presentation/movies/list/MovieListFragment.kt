@@ -106,12 +106,8 @@ class MovieListFragment : Fragment() {
     private fun setUpMovieListAdapter() {
         moviesAdapter = MoviesAdapter {
             findNavController()
-                .navigate(MovieListFragmentDirections.actionMoviesFragmentToMovieQuotesFragment(it))
+                .navigate(MovieListFragmentDirections.actionMoviesFragmentToMovieInfoFragment(it))
         }
-//            {
-//                findNavController()
-//                    .navigate(MovieListFragmentDirections.actionMoviesFragmentToMovieQuotesFragment(it))
-//            })
         binding.movies.adapter = moviesAdapter
 
     }

@@ -102,9 +102,11 @@ fun View.showError(message: String?) {
     val defaultError = context?.getString(R.string.default_error)
     Snackbar.make(
         this,
-        if (message.isNullOrEmpty() && !defaultError.isNullOrEmpty())
-            defaultError
-        else "",
+        when {
+            !message.isNullOrBlank() -> message
+            !defaultError.isNullOrBlank() -> defaultError
+            else -> ""
+        },
         Snackbar.LENGTH_SHORT
     ).show()
 }
@@ -181,31 +183,21 @@ fun EditText.onDone(callback: (EditText) -> Unit) {
     }
 }
 
-/*
-fun <T> Context.getDataStoreFlow(key: Preferences.Key<T>, defaultValue: T?) =
-    dataStore.data.catch { exception ->
-        if (exception is IOException)
-            emit(emptyPreferences())
-        else throw exception
-    }.map {
-        it[key] ?: defaultValue
-    }
-*/
-
-
-/*
-fun <T> Context.getDataStoreLiveData(key: Preferences.Key<T>, defaultValue: T?) =
-    getDataStoreFlow(key, defaultValue).asLiveData()
-*/
-
-/*
-suspend fun <T> Context.setDataStoreValue(key: Preferences.Key<T>, value: T) = dataStore.edit {
-    it[key] = value
-}
-*/
-
 fun Int.dp(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = this * (metrics.densityDpi / 160f)
     return px.roundToInt()
+}
+
+fun Activity.autoHideKeyboard(ev: MotionEvent) {
+    val view: View? = currentFocus
+    if (view != null && (ev.action == MotionEvent.ACTION_UP || ev.action == MotionEvent.ACTION_MOVE) && view is EditText && !view.javaClass
+            .name.startsWith("android.webkit.")
+    ) {
+        val screenCoordinates = IntArray(2)
+        view.getLocationOnScreen(screenCoordinates)
+        val x: Float = ev.rawX + view.getLeft() - screenCoordinates[0]
+        val y: Float = ev.rawY + view.getTop() - screenCoordinates[1]
+        if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom()) view.hideKeyboard()
+    }
 }

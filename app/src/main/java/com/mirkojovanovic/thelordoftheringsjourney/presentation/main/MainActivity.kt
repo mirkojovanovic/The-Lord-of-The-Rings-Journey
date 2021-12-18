@@ -3,8 +3,11 @@ package com.mirkojovanovic.thelordoftheringsjourney.presentation.main
 import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +20,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.PreferenceCache
+import com.mirkojovanovic.thelordoftheringsjourney.common.autoHideKeyboard
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.ActivityMainBinding
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.home.NameListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,8 +36,6 @@ class MainActivity : AppCompatActivity(), NameListener {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private val viewModel by viewModels<MainViewModel>()
-
     @Inject
     lateinit var prefs: PreferenceCache
 
@@ -44,13 +46,29 @@ class MainActivity : AppCompatActivity(), NameListener {
         val view = binding.root
         setContentView(view)
         setUpNavigation()
-        setUpNavigationDrawer()
+        setNavigationItemSelectedListener()
+        onDestinationChange()
         setOnSplashExitAnimation()
+        supportActionBar?.elevation = 0f
     }
 
-    private fun setUpNavigationDrawer() {
-        openDrawerOnNavigationIconClick()
-        setNavigationItemSelectedListener()
+    private fun onDestinationChange() {
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when(destination.id) {
+                R.id.movieInfoFragment -> {
+                    binding.toolbar.setNavigationOnClickListener {
+                        onBackPressed()
+                    }
+                    binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_left)
+                }
+                else -> {
+                    binding.toolbar.setNavigationOnClickListener {
+                        binding.root.open()
+                    }
+                    binding.toolbar.setNavigationIcon(R.drawable.ic_menu)
+                }
+            }
+        }
     }
 
     private fun setNavigationItemSelectedListener() {
@@ -68,12 +86,6 @@ class MainActivity : AppCompatActivity(), NameListener {
         }
     }
 
-    private fun openDrawerOnNavigationIconClick() {
-        binding.topAppBar.setNavigationOnClickListener {
-            binding.root.open()
-        }
-    }
-
     private fun setUpNavigation() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -87,7 +99,7 @@ class MainActivity : AppCompatActivity(), NameListener {
         prefs.userName?.let { setUserNameInTheDrawer(it) }
         appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         binding.navView.setupWithNavController(navController)
-        setSupportActionBar(binding.topAppBar)
+        setSupportActionBar(binding.toolbar)
     }
 
     private fun setOnSplashExitAnimation() {
@@ -123,6 +135,11 @@ class MainActivity : AppCompatActivity(), NameListener {
         val header = binding.navView.getHeaderView(0)
         val usernameTextView = header.findViewById<TextView>(R.id.user_name)
         usernameTextView.text = userName
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        autoHideKeyboard(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
 }

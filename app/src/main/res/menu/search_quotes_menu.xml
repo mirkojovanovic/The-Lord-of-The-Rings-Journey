@@ -7,6 +7,9 @@
         android:icon="@drawable/ic_magnify"
         app:showAsAction="collapseActionView|ifRoom"
         app:iconTint="@color/white"
+        android:focusable="true"
+        app:iconifiedByDefault="false"
+        android:focusableInTouchMode="true"
         android:title="@string/search_title" />
 </menu>
 

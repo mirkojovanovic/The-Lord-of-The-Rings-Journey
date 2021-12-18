@@ -23,40 +23,29 @@
         android:label="MoviesFragment"
         tools:layout="@layout/fragment_movie_list" >
         <action
-            android:id="@+id/action_moviesFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_moviesFragment_to_movieQuotesFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/movieQuotesFragment" />
+            android:id="@+id/action_moviesFragment_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.details.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
-        tools:layout="@layout/fragment_movie_details">
-        <argument
-            android:name="movieDoc"
-            app:nullable="true"
-            app:argType="com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc" />
-    </fragment>
+        tools:layout="@layout/fragment_movie_details" />
 
     <fragment
         android:id="@+id/movieQuotesFragment"
         android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.quotes.MovieQuotesFragment"
         tools:layout="@layout/fragment_movie_quotes"
-        android:label="MovieQuotesFragment">
+        android:label="MovieQuotesFragment" />
+    <fragment
+        android:id="@+id/movieInfoFragment"
+        android:name="com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.MovieInfoFragment"
+        android:label="fragment_movie_info"
+        tools:layout="@layout/fragment_movie_info">
         <argument
-            android:name="movieId"
-            app:argType="string" />
+            android:name="movieDoc"
+            app:argType="com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc" />
     </fragment>
 
 </navigation>

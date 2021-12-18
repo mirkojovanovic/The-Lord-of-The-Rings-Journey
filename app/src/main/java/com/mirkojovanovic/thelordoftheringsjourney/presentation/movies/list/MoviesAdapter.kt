@@ -10,8 +10,7 @@ import com.mirkojovanovic.thelordoftheringsjourney.databinding.MovieItemBinding
 import com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc
 
 class MoviesAdapter(
-//    private val showDetails: (MovieDoc) -> Unit,
-    private val showQuotes: (String) -> Unit,
+    private val showInfo: (MovieDoc) -> Unit,
 ) :
     PagingDataAdapter<MovieDoc, MoviesAdapter.ViewHolder>(SERVICE_COMPARATOR) {
 
@@ -19,8 +18,7 @@ class MoviesAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             movie: MovieDoc,
-//            showDetails: (MovieDoc) -> Unit,
-            showQuotes: (String) -> Unit,
+            showInfo: (MovieDoc) -> Unit,
         ) {
             with(binding) {
                 name.text = movie.name
@@ -28,7 +26,7 @@ class MoviesAdapter(
                     root.resources.getString(R.string.movie_score, movie.rottenTomatoesScore)
                 runtime.text =
                     root.resources.getString(R.string.movie_runtime, movie.runtimeInMinutes)
-                root.setOnClickListener { showQuotes(movie._id) }
+                root.setOnClickListener { showInfo(movie) }
             }
         }
     }
@@ -44,7 +42,9 @@ class MoviesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it, /*showDetails,*/ showQuotes) }
+        getItem(position)?.let {
+            holder.bind(it, showInfo)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

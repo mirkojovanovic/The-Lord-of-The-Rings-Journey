@@ -2,7 +2,9 @@ package com.mirkojovanovic.thelordoftheringsjourney.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.Resource
+import com.mirkojovanovic.thelordoftheringsjourney.common.util.UiText
 import com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie.MoviesPageDto
 import com.mirkojovanovic.thelordoftheringsjourney.data.dto.movie.toMovieDoc
 import com.mirkojovanovic.thelordoftheringsjourney.data.remote.RemotePagingSource
@@ -27,9 +29,9 @@ class MovieRepositoryImpl @Inject constructor(
             val movie = theOneApi.getMovie(id)
             emit(Resource.Success(movie.docs[0].toMovieDoc()))
         } catch (e: HttpException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error(UiText.StringResource(R.string.error_couldnt_load_the_movie)))
         } catch (e: IOException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error(UiText.unknownError()))
         }
     }
 
@@ -39,9 +41,9 @@ class MovieRepositoryImpl @Inject constructor(
             val movies = theOneApi.getMovies()
             emit(Resource.Success(movies))
         } catch (e: HttpException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error(UiText.StringResource(R.string.error_couldnt_load_movies)))
         } catch (e: IOException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error(UiText.unknownError()))
         }
     }
 
@@ -58,7 +60,7 @@ class MovieRepositoryImpl @Inject constructor(
         config = PagingConfig(pageSize = NETWORK_PAGE_SIZE),
         pagingSourceFactory = {
             RemotePagingSource { page ->
-                theOneApi.getMovieQuotes(movieId, page, NETWORK_PAGE_SIZE)
+                theOneApi.getMovieQuotesPage(movieId, page, NETWORK_PAGE_SIZE)
             }
         }
     ).flow

@@ -9,9 +9,11 @@ import com.mirkojovanovic.thelordoftheringsjourney.data.remote.TheOneApi
 import com.mirkojovanovic.thelordoftheringsjourney.data.repository.BookRepositoryImpl
 import com.mirkojovanovic.thelordoftheringsjourney.data.repository.CharacterRepositoryImpl
 import com.mirkojovanovic.thelordoftheringsjourney.data.repository.MovieRepositoryImpl
+import com.mirkojovanovic.thelordoftheringsjourney.data.repository.QuoteRepositoryImpl
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.BookRepository
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.CharacterRepository
 import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.MovieRepository
+import com.mirkojovanovic.thelordoftheringsjourney.domain.repository.QuoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -74,20 +76,26 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookRepository(api: TheOneApi): BookRepository {
-        return BookRepositoryImpl(api)
-    }
+    fun provideBookRepository(
+        api: TheOneApi,
+    ): BookRepository = BookRepositoryImpl(api)
 
     @Provides
     @Singleton
-    fun provideMovieRepository(api: TheOneApi): MovieRepository {
-        return MovieRepositoryImpl(api)
-    }
+    fun provideMovieRepository(
+        api: TheOneApi,
+    ): MovieRepository = MovieRepositoryImpl(api)
 
     @Provides
     @Singleton
-    fun provideCharacterRepository(api: TheOneApi): CharacterRepository {
-        return CharacterRepositoryImpl(api)
-    }
+    fun provideCharacterRepository(
+        api: TheOneApi,
+    ): CharacterRepository = CharacterRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideQuoteRepository(
+        api: TheOneApi,
+    ): QuoteRepository = QuoteRepositoryImpl(api)
 
 }

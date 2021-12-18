@@ -3,6 +3,7 @@ package com.mirkojovanovic.thelordoftheringsjourney.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirkojovanovic.thelordoftheringsjourney.common.Resource
+import com.mirkojovanovic.thelordoftheringsjourney.common.util.UiText
 import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.books.GetBooksUseCase
 import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.movies.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,9 @@ class HomeViewModel @Inject constructor(
     private val _countState = MutableStateFlow(BooksMoviesCountState())
     val countState: Flow<BooksMoviesCountState> by this::_countState
 
+    private val _event = MutableSharedFlow<UIEvent>()
+    val event = _event.asSharedFlow()
+
     init {
         getBookCount()
         getMovieCount()
@@ -30,13 +34,17 @@ class HomeViewModel @Inject constructor(
                 with(_countState) {
                     when (result) {
                         is Resource.Success -> {
-                            emit(first().copy(bookCount = result.data?.total))
+                            emit(_countState.value.copy(bookCount = result.data?.total))
+                            _event.emit(UIEvent.HideLoadingAnimation)
                         }
                         is Resource.Error -> {
-                            emit(first().copy(error = result.message))
+                            emit(_countState.value.copy(error = result.message))
+                            _event.emit(UIEvent.ShowSnackBar(result.message))
+                            _event.emit(UIEvent.HideLoadingAnimation)
                         }
                         is Resource.Loading -> {
-                            emit(first().copy(isLoading = true))
+                            emit(_countState.value.copy(isLoading = true))
+                            _event.emit(UIEvent.ShowLoadingAnimation(result.message))
                         }
                     }
                 }
@@ -51,13 +59,17 @@ class HomeViewModel @Inject constructor(
                 with(_countState) {
                     when (result) {
                         is Resource.Success -> {
-                            emit(first().copy(movieCount = result.data?.total))
+                            emit(_countState.value.copy(movieCount = result.data?.total))
+                            _event.emit(UIEvent.HideLoadingAnimation)
                         }
                         is Resource.Error -> {
-                            emit(first().copy(error = result.message))
+                            emit(_countState.value.copy(error = result.message))
+                            _event.emit(UIEvent.ShowSnackBar(result.message))
+                            _event.emit(UIEvent.HideLoadingAnimation)
                         }
                         is Resource.Loading -> {
-                            emit(first().copy(isLoading = true))
+                            emit(_countState.value.copy(isLoading = true))
+                            _event.emit(UIEvent.ShowLoadingAnimation(result.message))
                         }
                     }
                 }
@@ -66,4 +78,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    sealed class UIEvent {
+        data class ShowSnackBar(val message: UiText?) : UIEvent()
+        data class ShowLoadingAnimation(val message: UiText?) : UIEvent()
+        object HideLoadingAnimation : UIEvent()
+    }
 }
