@@ -23,7 +23,7 @@
     <string name="movie_nominations">%d nominations</string>
     <string name="name">Name</string>
     <string name="search_title">Search…</string>
-    <string name="search_hint">Search…</string>
+    <string name="search_hint">Search by character…</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="unsorted">Unsorted</string>

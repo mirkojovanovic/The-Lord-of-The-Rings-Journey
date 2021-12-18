@@ -19,6 +19,11 @@
         <!-- window background -->
         <item name="android:windowBackground">@drawable/splash_screen</item>
 
+        <!-- EditText colors-->
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+
+
     </style>
 
     <style name="AppTheme.TabLayout.Tab" parent="TextAppearance.Design.Tab">

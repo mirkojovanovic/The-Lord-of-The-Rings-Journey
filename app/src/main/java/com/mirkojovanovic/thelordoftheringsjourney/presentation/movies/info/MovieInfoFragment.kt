@@ -140,6 +140,7 @@ class MovieInfoFragment : Fragment(), SearchView.OnQueryTextListener {
         val searchView = search?.actionView as? SearchView
         searchView?.isIconifiedByDefault = false
         searchView?.isSubmitButtonEnabled = true
+        searchView?.queryHint = getString(R.string.search_hint)
         searchView?.setOnQueryTextListener(this)
     }
 
