@@ -67,7 +67,7 @@ class MovieRepositoryImpl @Inject constructor(
 
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 5
+        const val NETWORK_PAGE_SIZE = 8
     }
 
 }

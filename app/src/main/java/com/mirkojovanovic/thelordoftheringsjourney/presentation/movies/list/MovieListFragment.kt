@@ -46,6 +46,10 @@ class MovieListFragment : Fragment() {
                 binding.movies.scrollToPosition(0)
             }
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadMovies()
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
