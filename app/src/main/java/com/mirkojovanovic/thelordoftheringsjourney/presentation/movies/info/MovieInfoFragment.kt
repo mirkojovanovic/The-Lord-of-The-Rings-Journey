@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -12,16 +13,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.showError
 import com.mirkojovanovic.thelordoftheringsjourney.common.util.UiText
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.FragmentMovieInfoBinding
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.details.MovieDetailsFragment
+import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.quotes.InfoTab
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.quotes.MovieQuotesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -67,6 +71,19 @@ class MovieInfoFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.pager.adapter = movieInfoPagerAdapter
         setUpTabLayout()
         handleUIEvent()
+        registerTabChange()
+    }
+
+    private fun registerTabChange() {
+        binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    0 -> viewModel.setTab(InfoTab.Details)
+                    1 -> viewModel.setTab(InfoTab.Quotes)
+                }
+            }
+        })
     }
 
     private fun handleUIEvent() {
@@ -90,6 +107,9 @@ class MovieInfoFragment : Fragment(), SearchView.OnQueryTextListener {
                         }
                         is MovieInfoViewModel.UIEvent.HideLoadingAnimation -> {
                             loading.hide()
+                        }
+                        is MovieInfoViewModel.UIEvent.AdaptFragmentOptionsMenu -> {
+                            setHasOptionsMenu(true)
                         }
                     }
                 }
@@ -129,19 +149,45 @@ class MovieInfoFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
+    private fun setUpSearchView(inflater: MenuInflater, menu: Menu) {
+        inflater.inflate(R.menu.search_quotes_menu, menu)
+        val search = menu.findItem(R.id.search)
+        val searchView = search?.actionView as? SearchView
+        searchView?.run {
+            isIconifiedByDefault = false
+            isSubmitButtonEnabled = true
+            queryHint = getString(R.string.search_hint)
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+        }
+        searchView?.setOnQueryTextListener(this@MovieInfoFragment)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         setUpSearchView(inflater, menu)
     }
 
-    private fun setUpSearchView(inflater: MenuInflater, menu: Menu) {
-        inflater.inflate(R.menu.search_quotes_menu, menu)
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
         val search = menu.findItem(R.id.search)
         val searchView = search?.actionView as? SearchView
-        searchView?.isIconifiedByDefault = false
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.queryHint = getString(R.string.search_hint)
-        searchView?.setOnQueryTextListener(this)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    when (state.tab) {
+                        InfoTab.Details -> {
+                            search.isVisible = false
+                            searchView?.visibility = View.INVISIBLE
+                        }
+                        InfoTab.Quotes -> {
+                            search.isVisible = true
+                            searchView?.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -149,6 +195,8 @@ class MovieInfoFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
+        if (binding.pager.currentItem != 2)
+            binding.pager.currentItem = 2
         viewModel.setQuery(query ?: "")
         return true
     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/secondaryColor"
     android:orientation="vertical"
     tools:context=".presentation.home.HomeFragment">
 
@@ -15,7 +16,9 @@
         android:gravity="center"
         android:padding="75dp"
         android:textSize="32sp"
+        android:textColor="@color/secondaryTextColor"
         android:visibility="gone"
+        android:fontFamily="@font/roboto_medium"
         app:drawableTint="@color/secondaryLightColor"
         app:drawableTopCompat="@drawable/ic_bookshelf"
         tools:text="3 books" />
@@ -28,6 +31,8 @@
         android:gravity="center"
         android:padding="75dp"
         android:textSize="32sp"
+        android:textColor="@color/secondaryTextColor"
+        android:fontFamily="@font/roboto_medium"
         android:visibility="gone"
         app:drawableTint="@color/secondaryLightColor"
         app:drawableTopCompat="@drawable/ic_filmstrip"

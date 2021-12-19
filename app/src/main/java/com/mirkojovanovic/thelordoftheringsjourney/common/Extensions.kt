@@ -107,7 +107,7 @@ fun View.showError(message: String?) {
             !defaultError.isNullOrBlank() -> defaultError
             else -> ""
         },
-        Snackbar.LENGTH_SHORT
+        Snackbar.LENGTH_LONG
     ).show()
 }
 

@@ -7,6 +7,7 @@ import com.mirkojovanovic.thelordoftheringsjourney.common.util.UiText
 import com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc
 import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.characters.GetAllCharactersUseCase
 import com.mirkojovanovic.thelordoftheringsjourney.domain.use_case.quotes.GetMovieQuotesUseCase
+import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.quotes.InfoTab
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.quotes.MovieQuotesState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +44,21 @@ class MovieInfoViewModel @Inject constructor(
         )
     }
 
+    fun setTab(tab: InfoTab) {
+        _state.value = _state.value.copy(
+            tab = tab
+        )
+        viewModelScope.launch {
+            _event.emit(UIEvent.AdaptFragmentOptionsMenu)
+        }
+    }
+
+    fun emitEvent(uiEvent: UIEvent) {
+        viewModelScope.launch {
+            _event.emit(uiEvent)
+        }
+    }
+
     fun getCharacters() {
         viewModelScope.launch {
             getAllCharactersUseCase().onEach { characters ->
@@ -68,7 +84,7 @@ class MovieInfoViewModel @Inject constructor(
                             )
                         )
                         _event.emit(UIEvent.HideLoadingAnimation)
-                        delay(50)
+                        delay(100)
                         _event.emit(UIEvent.ShowSnackBar(characters.message))
                     }
                     is Resource.Loading -> {
@@ -130,6 +146,7 @@ class MovieInfoViewModel @Inject constructor(
         data class ShowSnackBar(val message: UiText?) : UIEvent()
         data class ShowLoadingAnimation(val message: UiText?) : UIEvent()
         object HideLoadingAnimation : UIEvent()
+        object AdaptFragmentOptionsMenu : UIEvent()
     }
 
 }

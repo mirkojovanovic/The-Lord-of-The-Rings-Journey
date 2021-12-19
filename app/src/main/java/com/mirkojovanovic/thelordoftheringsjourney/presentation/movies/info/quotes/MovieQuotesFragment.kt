@@ -9,7 +9,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.dp
+import com.mirkojovanovic.thelordoftheringsjourney.common.util.UiText
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.FragmentMovieQuotesBinding
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.movies.info.MovieInfoViewModel
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.util.VerticalSpaceItemDecoration
@@ -49,7 +51,13 @@ class MovieQuotesFragment : Fragment() {
                     with(state) {
                         movie?.let { movieQuotesAdapter.movie = movie }
                         characters?.let { movieQuotesAdapter.characters = it.toMutableList() }
-                        quotes?.let { movieQuotesAdapter.quotes = it.toMutableList() }
+                        this.quotes?.let {
+                            movieQuotesAdapter.quotes = quotes.toMutableList()
+                            if (tab is InfoTab.Quotes && !isLoading && it.isNullOrEmpty())
+                                viewModel.emitEvent(MovieInfoViewModel.UIEvent.ShowSnackBar(
+                                    UiText.StringResource(R.string.no_items_to_show_message)))
+
+                        }
                         movieQuotesAdapter.filter.filter(query)
                     }
                 }
@@ -64,7 +72,7 @@ class MovieQuotesFragment : Fragment() {
 
     private fun setMovieQuotesSpacingValues() {
         binding.quotes.addItemDecoration(
-            VerticalSpaceItemDecoration(4.dp(), 8.dp(), 8.dp(), 8.dp(), 8.dp())
+            VerticalSpaceItemDecoration(8.dp(), 12.dp(), 12.dp(), 12.dp(), 12.dp())
         )
     }
 

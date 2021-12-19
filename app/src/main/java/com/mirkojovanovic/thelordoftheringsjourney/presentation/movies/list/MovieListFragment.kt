@@ -99,7 +99,7 @@ class MovieListFragment : Fragment() {
 
     private fun setMovieListSpacingValues() {
         binding.movies.addItemDecoration(
-            VerticalSpaceItemDecoration(4.dp(), 8.dp(), 8.dp(), 8.dp(), 8.dp())
+            VerticalSpaceItemDecoration(8.dp(), 12.dp(), 12.dp(), 12.dp(), 12.dp())
         )
     }
 

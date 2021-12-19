@@ -10,6 +10,7 @@ import com.mirkojovanovic.thelordoftheringsjourney.databinding.QuoteItemBinding
 import com.mirkojovanovic.thelordoftheringsjourney.domain.model.character.Character
 import com.mirkojovanovic.thelordoftheringsjourney.domain.model.movie.MovieDoc
 import com.mirkojovanovic.thelordoftheringsjourney.domain.model.quote.QuoteDoc
+import timber.log.Timber
 
 class MovieQuotesAdapter : RecyclerView.Adapter<MovieQuotesAdapter.ViewHolder>(), Filterable {
 
@@ -26,12 +27,21 @@ class MovieQuotesAdapter : RecyclerView.Adapter<MovieQuotesAdapter.ViewHolder>()
         override fun performFiltering(query: CharSequence?): FilterResults {
             when {
                 query.isNullOrBlank() -> {
+                    filteredQuotes.clear()
                     filteredList.addAll(quotes)
                 }
                 else -> {
-                    val targetQuotes = quotes.filter { quote ->
-                        quote.character in characters.filter { it.name.startsWith(query) }.map { it._id }
-                    }
+                    val characterIds = characters
+                        .filter { it.name.startsWith(query, true) }
+                        .also { Timber.d("${it.size} characters matching the query: $it") }
+                        .map { it._id }
+                        .distinct()
+                    val targetQuotes = quotes
+                        .filter { quote ->
+                            quote.character in characterIds
+                        }
+                        .also { Timber.d("${it.size} quotes matching the query: $it") }
+                    filteredQuotes.clear()
                     filteredList.addAll(targetQuotes)
                 }
             }

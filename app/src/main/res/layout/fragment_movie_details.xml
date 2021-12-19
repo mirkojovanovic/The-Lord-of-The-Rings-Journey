@@ -1,126 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:paddingTop="8dp"
+    android:layout_height="match_parent"
     android:background="@color/secondaryColor">
 
-    <TableRow>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/name_value"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_bold"
             android:padding="8dp"
-            android:textSize="18sp"
             android:textColor="@color/secondaryTextColor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Movie name" />
-    </TableRow>
-
-
-    <TableRow>
 
         <TextView
             android:id="@+id/runtime"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:text="@string/runtime"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toStartOf="@id/runtime_value"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_value" />
 
         <TextView
             android:id="@+id/runtime_value"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/runtime"
+            app:layout_constraintTop_toTopOf="@id/runtime"
             tools:text="431 min" />
-    </TableRow>
-
-    <TableRow>
 
         <TextView
             android:id="@+id/budget"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:text="@string/budget"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toStartOf="@id/runtime_value"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/runtime" />
 
         <TextView
             android:id="@+id/budget_value"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/runtime"
+            app:layout_constraintTop_toBottomOf="@id/runtime_value"
             tools:text="5 mil" />
-    </TableRow>
 
-    <TableRow>
 
         <TextView
             android:id="@+id/revenue"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:text="@string/revenue"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toStartOf="@id/runtime_value"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/budget" />
+
 
         <TextView
             android:id="@+id/revenue_value"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/runtime"
+            app:layout_constraintTop_toBottomOf="@id/budget_value"
             tools:text="revenue" />
-    </TableRow>
-
-    <TableRow>
 
         <TextView
             android:id="@+id/score"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:text="@string/rotten_tomattoes_score"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toStartOf="@id/runtime_value"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/revenue" />
 
         <TextView
             android:id="@+id/score_value"
-            android:padding="8dp"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
             android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/runtime"
+            app:layout_constraintTop_toBottomOf="@id/revenue_value"
             tools:text="7.4" />
-    </TableRow>
-
-    <TableRow>
 
         <TextView
             android:id="@+id/nominations"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:text="@string/nominations"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toStartOf="@id/runtime_value"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/score" />
+
 
         <TextView
             android:id="@+id/nominations_value"
-            android:padding="8dp"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
             android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/runtime"
+            app:layout_constraintTop_toBottomOf="@id/score_value"
             tools:text="40" />
-    </TableRow>
-
-
-    <TableRow>
 
         <TextView
             android:id="@+id/awards"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:fontFamily="@font/roboto_regular"
             android:padding="8dp"
             android:text="@string/awards"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toStartOf="@id/score_value"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nominations" />
 
         <TextView
             android:id="@+id/awards_value"
-            android:padding="8dp"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"
             android:textColor="@color/secondaryTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/runtime"
+            app:layout_constraintTop_toBottomOf="@id/nominations_value"
             tools:text="15" />
-    </TableRow>
 
-</TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+</androidx.core.widget.NestedScrollView>
