@@ -42,4 +42,7 @@
     <string name="error_couldnt_load_movies">Couldn\'t load movies</string>
     <string name="error_couldnt_load_characters">Couldn\'t load characters</string>
     <string name="no_items_to_show_message">No items to show</string>
+    <string name="network_available_message">Network is available again</string>
+    <string name="network_unavailable_message">Network is unavailable</string>
+    <string name="network_lost_message">Network connection is lost</string>
 </resources>

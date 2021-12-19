@@ -1,14 +1,15 @@
 package com.mirkojovanovic.thelordoftheringsjourney.presentation.main
 
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
@@ -21,6 +22,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.mirkojovanovic.thelordoftheringsjourney.R
 import com.mirkojovanovic.thelordoftheringsjourney.common.PreferenceCache
 import com.mirkojovanovic.thelordoftheringsjourney.common.autoHideKeyboard
+import com.mirkojovanovic.thelordoftheringsjourney.common.showError
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.ActivityMainBinding
 import com.mirkojovanovic.thelordoftheringsjourney.presentation.home.NameListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +38,10 @@ class MainActivity : AppCompatActivity(), NameListener {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkRequest: NetworkRequest
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+
     @Inject
     lateinit var prefs: PreferenceCache
 
@@ -45,6 +51,7 @@ class MainActivity : AppCompatActivity(), NameListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        showNetworkAvailabilityMessages(view)
         setUpNavigation()
         setNavigationItemSelectedListener()
         onDestinationChange()
@@ -52,9 +59,39 @@ class MainActivity : AppCompatActivity(), NameListener {
         supportActionBar?.elevation = 0f
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
+
+    private fun showNetworkAvailabilityMessages(view: View) {
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkRequest = NetworkRequest.Builder().build()
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                view.showError(getString(R.string.network_available_message))
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                view.showError(getString(R.string.network_lost_message))
+            }
+
+            override fun onUnavailable() {
+                super.onUnavailable()
+                view.showError(getString(R.string.network_unavailable_message))
+
+            }
+        }
+        connectivityManager.registerNetworkCallback(
+            networkRequest, networkCallback
+        )
+    }
+
     private fun onDestinationChange() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            when(destination.id) {
+            when (destination.id) {
                 R.id.movieInfoFragment -> {
                     binding.toolbar.setNavigationOnClickListener {
                         onBackPressed()
