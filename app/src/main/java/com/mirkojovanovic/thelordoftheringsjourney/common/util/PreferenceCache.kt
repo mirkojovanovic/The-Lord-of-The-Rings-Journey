@@ -1,4 +1,4 @@
-package com.mirkojovanovic.thelordoftheringsjourney.common
+package com.mirkojovanovic.thelordoftheringsjourney.common.util
 
 
 import android.content.Context

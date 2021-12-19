@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mirkojovanovic.thelordoftheringsjourney.R
-import com.mirkojovanovic.thelordoftheringsjourney.common.PreferenceCache
+import com.mirkojovanovic.thelordoftheringsjourney.common.util.PreferenceCache
 import com.mirkojovanovic.thelordoftheringsjourney.common.focusAndShowKeyboard
 import com.mirkojovanovic.thelordoftheringsjourney.common.onDone
 import com.mirkojovanovic.thelordoftheringsjourney.common.setAsRootView

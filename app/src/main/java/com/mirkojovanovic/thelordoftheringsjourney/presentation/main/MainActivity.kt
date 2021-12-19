@@ -20,7 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.mirkojovanovic.thelordoftheringsjourney.R
-import com.mirkojovanovic.thelordoftheringsjourney.common.PreferenceCache
+import com.mirkojovanovic.thelordoftheringsjourney.common.util.PreferenceCache
 import com.mirkojovanovic.thelordoftheringsjourney.common.autoHideKeyboard
 import com.mirkojovanovic.thelordoftheringsjourney.common.showError
 import com.mirkojovanovic.thelordoftheringsjourney.databinding.ActivityMainBinding
